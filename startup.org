@@ -21,7 +21,6 @@
 #+end_src
 
 ** org
-*** install
 #+begin_src emacs-lisp
 (use-package org-bullets
   :ensure t
@@ -37,7 +36,6 @@
 (add-to-list 'auto-mode-alist '("\\.todo\\'" . org-mode))
 #+end_src 
 ** mu4e
-*** install
 #+begin_src emacs-lisp
 
 (setq mrb/mu4e-path "/usr/share/emacs/site-lisp/mu4e/")
