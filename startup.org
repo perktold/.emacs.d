@@ -1,0 +1,121 @@
+* packages / modes
+** elfeed
+*** install
+#+begin_src 
+(use-package elfeed
+  :ensure t)
+#+end_src
+
+*** add feeds
+#+begin_src emacs-lisp
+(setq elfeed-feeds
+      '(("https://suckless.org/atom.xml" tech)
+	("https://it-syndikat.org/feeds/index.rss2" tech)
+	("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" luke yt)
+	("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" tech yt)
+	("https://feeds.buzzsprout.com/1263722.rss" tech podcast)
+	("https://nullprogram.com/feed/" tech blog)
+	("https://nomasters.io/posts/index.xml" blog)
+	("https://lukesmith.xyz/rss.xml" luke)
+	("https://lobste.rs/rsshttps://lobste.rs/rss" tech lobsters)))
+#+end_src
+
+** org
+*** install
+#+begin_src emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :init
+  (add-hook 'org-mode-hook (lambda ()
+                             (org-bullets-mode 1))))
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-startup-with-inline-images t)
+
+;; open todo in org mode
+(add-to-list 'auto-mode-alist '("\\.todo\\'" . org-mode))
+#+end_src 
+** mu4e
+*** install
+#+begin_src emacs-lisp
+
+(setq mrb/mu4e-path "/usr/share/emacs/site-lisp/mu4e/")
+(use-package mu4e
+  :ensure nil
+  :load-path mrb/mu4e-path
+  :init
+  (setq mu4e-maildir (expand-file-name "~/Mail/TSN")))
+#+end_src
+** slime
+#+begin_src emacs-lisp
+(use-package slime
+  :ensure t)
+
+(setq inferior-lisp-program "/bin/clisp")
+(setq scheme-program-name "clisp")
+#+end_src
+** erl
+#+begin_src emacs-lisp
+(setq load-path (cons  "/usr/lib/erlang/lib/tools-3.4.1/emacs" load-path))
+(setq erlang-root-dir "/usr/lib/erlang")
+(setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
+(require 'erlang-start)
+#+end_src
+** other packages
+#+begin_src emacs-lisp
+(use-package evil
+  :ensure t
+  :init (evil-mode 1))
+
+(use-package which-key
+  :ensure t
+  :init (which-key-mode))
+
+(use-package magit
+  :ensure t)
+#+end_src
+
+* appearance
+** powerline
+#+begin_src emacs-lisp
+(use-package powerline-evil
+  :ensure t
+  :init (powerline-evil-center-color-theme))
+#+end_src
+** opacity
+#+begin_src emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha '(90 . 60))
+(add-to-list 'default-frame-alist '(alpha . (90 . 60)))
+#+end_src
+** general
+#+begin_src emacs-lisp
+(setq global-visual-line-mode t)
+(global-prettify-symbols-mode t)
+(hl-line-mode)
+(setq visible-bell t)
+(setq pop-up-frames t)
+#+end_src
+
+* other shit
+** load startup.org after its saved
+#+begin_src emacs-lisp
+(add-hook 'after-save-hook (lambda ()
+  (when (string= (buffer-name) 'startup.org)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/startup.org")))))
+#+end_src
+
+** 
+#+begin_src 
+(setq scroll-conservatively 100)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+
+;; disable evil in vterm
+(add-to-list 'evil-emacs-state-modes 'vterm-mode)
+
+
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+#+end_src
