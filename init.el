@@ -33,11 +33,11 @@
  '(fringe-mode 0 nil (fringe))
  '(global-linum-mode nil)
  '(global-visual-line-mode t)
- '(initial-buffer-choice "~/Schule/hü.todo")
+ '(initial-buffer-choice "~/Schule/stuff.todo")
  '(line-number-mode nil)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(slime inf-clojure cider clojure-mode mu4e elfeed powerline-evil powerline org-bullets vterm exwm which-key use-package dracula-theme evil))
+   '(elpher emojify mastodon emms slime inf-clojure cider clojure-mode mu4e elfeed powerline-evil powerline org-bullets vterm exwm which-key use-package dracula-theme evil))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
