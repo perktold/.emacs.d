@@ -32,7 +32,6 @@
  '(font-use-system-font nil)
  '(fringe-mode 0 nil (fringe))
  '(global-linum-mode nil)
- '(global-visual-line-mode t)
  '(initial-buffer-choice "~/Schule/stuff.todo")
  '(line-number-mode nil)
  '(menu-bar-mode nil)
