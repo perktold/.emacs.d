@@ -1,56 +1,35 @@
 * packages / modes
 ** elfeed
 *** install
-#+begin_src elisp
+#+begin_src 
 (use-package elfeed
   :ensure t)
 #+end_src
 
 *** add feeds
-#+begin_src elisp
-  (setq elfeed-feeds (quote
-	 (("https://suckless.org/atom.xml" tech)
-	  ("https://it-syndikat.org/feeds/index.rss2" tech)
-	  ("https://videos.lukesmith.xyz/feeds/videos.xml?accountId=3" luke tech vido)
-	  ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" tech video)
-	  ("https://feeds.buzzsprout.com/1263722.rss" tech podcast)
-	  ("https://nullprogram.com/feed/" tech blog)
-	  ("https://nomasters.io/posts/index.xml" blog)
-	  ("https://lukesmith.xyz/rss.xml" luke)
-	  ("https://lobste.rs/rss" tech lobsters)
-          ("https://dataswamp.org/~lich/rss.xml" tech blog)
-	  ("https://archlinux.org/feeds/news/"tech arch news))))
+#+begin_src emacs-lisp
+  (setq elfeed-feeds
+    '(        ("https://suckless.org/atom.xml" tech)
+	      ("https://it-syndikat.org/feeds/index.rss2" tech)
+	      ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" luke tech video)
+	      ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" dt tech video)
+	      ("https://feeds.buzzsprout.com/1263722.rss" tech podcast)
+	      ("https://nullprogram.com/feed/" tech blog)
+	      ("https://nomasters.io/posts/index.xml" blog)
+	      ("https://lukesmith.xyz/rss.xml" luke)
+	      ("https://lobste.rs/rss" tech lobsters)
+	      ("https://drewdevault.com/feed.xml" tech blog)
+	      ("http://verisimilitudes.net/rss.xml" tech blog)
+	      ("https://sachachua.com/blog/feed/" tech blog)
+	      ("https://krebsonsecurity.com/feed/" tech blog)
+	      ("https://yukinu.com/feed/rss.xml" tech blog lain)
+	      ("https://landchad.net/rss.xml" tech luke)
+	      ("http://cowlark.com/feed.rss" tech blog)
+	      ("https://robertheaton.com/feed.xml" tech blog)
+              ("https://neovim.io/news.xml" tech feed)
+      ))
 #+end_src
 
-** emms
-#+begin_src elisp
-(use-package emms
-  :ensure t
-  :config
-    (require 'emms-setup)
-    (require 'emms-player-mpd)
-    (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work
-    (setq emms-seek-seconds 5)
-    (setq emms-player-list '(emms-player-mpd))
-    (setq emms-info-functions '(emms-info-mpd))
-    (setq emms-player-mpd-server-name "localhost")
-  :bind
-    ("<XF86AudioPrev>" . emms-previous)
-    ("<XF86AudioNext>" . emms-next)
-    ("<XF86AudioPlay>" . emms-pause)
-    ("<XF86AudioStop>" . emms-stop))
-#+end_src
-
-#+begin_src elisp
-(defun music ()
-    "updates mpd, starts emms"
-    (interactive)
-    (call-process "mpc" nil nil nil "update")
-    (message "MPD Database Updated!")
-    (emms-player-mpd-connect)
-    (emms-cache-set-from-mpd-all)
-    (emms-browser))
-#+end_src
 ** org
 #+begin_src emacs-lisp
 (use-package org-bullets
@@ -62,23 +41,10 @@
 
 #+begin_src emacs-lisp
 (setq org-startup-with-inline-images t)
+
 ;; open todo in org mode
 (add-to-list 'auto-mode-alist '("\\.todo\\'" . org-mode))
-#+end_src  
-** mu4e
-
-#+begin_src emacs-lisp
-(setq mrb/mu4e-path "/usr/share/emacs/site-lisp/mu4e/")
-(use-package mu4e
-  :ensure nil
-  :load-path mrb/mu4e-path
-  :init
-  (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-maildir (expand-file-name "~/Mail/TSN"))
-  (setq mu4e-drafts-folder "/TSN/Drafts")
-  (setq mu4e-sent-folder   "/TSN/Sent")
-  (setq mu4e-trash-folder  "/TSN/Trash"))
-#+end_src
+#+end_src 
 ** slime
 #+begin_src emacs-lisp
 (use-package slime
@@ -87,32 +53,30 @@
 (setq inferior-lisp-program "/bin/clisp")
 (setq scheme-program-name "clisp")
 #+end_src
-** erl
-#+begin_src emacs-lisp
-;(setq load-path (cons  "/usr/lib/erlang/lib/tools-3.4.4/emacs" load-path))
-;(setq erlang-root-dir "/usr/lib/erlang")
-;(setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
-;(require 'erlang-start)
-#+end_src
 ** other packages
 #+begin_src emacs-lisp
-(use-package evil
-  :ensure t
-  :init (evil-mode 1))
+  (use-package evil
+    :ensure t
+    :init (evil-mode 1))
 
-(use-package which-key
-  :ensure t
-  :init (which-key-mode))
+  (use-package which-key
+    :ensure t
+    :init (which-key-mode))
 
-(use-package magit
-  :ensure t)
+  (use-package magit
+    :ensure t)
 
-(use-package elpher
-  :ensure t)
+  (use-package elpher
+    :ensure t)
 
 #+end_src
 
 * appearance
+
+** theme
+#+begin_src emacs-lisp
+(load-theme 'manoj-dark)
+#+end_src
 ** powerline
 #+begin_src emacs-lisp
 (use-package powerline-evil
@@ -121,24 +85,63 @@
 #+end_src
 ** opacity
 #+begin_src emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha '(90 . 60))
-(add-to-list 'default-frame-alist '(alpha . (90 . 60)))
+(set-frame-parameter (selected-frame) 'alpha '(95 . 80))
+(add-to-list 'default-frame-alist '(alpha . (95 . 80)))
 #+end_src
-** emojify
+** non-monospace in org mode
 #+begin_src emacs-lisp
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
+;  (add-hook 'org-mode-hook (lambda () (variable-pitch-mode 1)))
+;  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
 #+end_src
 ** general
 #+begin_src emacs-lisp
-  (setq global-visual-line-mode t)
-  (global-prettify-symbols-mode t)
-  (hl-line-mode)
-  (setq visible-bell t)
-  (setq pop-up-frames t)
-
+(setq global-visual-line-mode t)
+(global-prettify-symbols-mode t)
+(hl-line-mode)
+(setq visible-bell t)
+(setq pop-up-frames t)
+(setq initial-buffer-choice "~/Schule/todo.todo")
+#+end_src
+* LaTeX
+#+begin_src emacs-lisp
+  (require 'ox-latex)
+  (with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-classes
+	   '("koma-article"
+	     "\\documentclass[french, 11pt]{scrartcl}
+	     \\usepackage[utf8]{inputenc}
+	     \\usepackage[T1]{fontenc}
+	     \\usepackage{babel}
+	     \\usepackage[hidelinks]{hyperref}
+	     \\usepackage[ddmmyyyy]{datetime}
+	     \\usepackage{microtype}
+	     \\usepackage{antiqua}
+	     \\author{Perktold Felix}
+	     \\date{\\today}
+	     \\renewcommand{\\contentsname}{Table des matières}
+	     [NO-DEFAULT-PACKAGES]
+	     [NO-PACKAGES]"
+	     ("\\section{%s}" . "\\section*{%s}")
+	     ("\\subsection{%s}" . "\\subsection*{%s}")
+	     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+   (setq org-latex-pdf-process '("texi2dvi -p -b -V %f"))
 #+end_src
 
+** Diplomarbeit
+#+begin_src emacs-lisp
+(setq org-publish-project-alist
+    '(("diplomarbeit"
+	    :base-directory "~/Documents/diplomarbeit/dokumentation/content"
+	    :publishing-function org-publish-org-to-latex
+	    :publishing-directory "~/Documents/pimmelmann"
+	    :recursive t
+	    :section-numbers nil
+	    :with-toc nil
+	    :completion-function "make -C ~/Documents/diplomarbeit/dokumentation/"
+)))
+#+end_src
 * other shit
 ** load startup.org after its saved
 #+begin_src emacs-lisp
@@ -147,18 +150,23 @@
     (org-babel-load-file (expand-file-name "~/.emacs.d/startup.org")))))
 #+end_src
 
+** org mode links
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c C-l") 'org-insert-link)
+#+end_src
+
 ** 
-#+begin_src elisp
+#+begin_src 
 (setq scroll-conservatively 100)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 
-
 ;; disable evil in vterm
 (add-to-list 'evil-emacs-state-modes 'vterm-mode)
 
-
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
-#+end_src
 
+(setq scheme-program-name "guile")
+#+end_src
